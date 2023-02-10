@@ -2,13 +2,14 @@ package vn.com.vui.truongnnt.demo.service;
 
 import com.mongodb.client.result.UpdateResult;
 
-import vn.com.vui.truongnnt.demo.entity.Merchant;
-import vn.com.vui.truongnnt.demo.entity.Store;
+import vn.com.vui.truongnnt.demo.entity.MerchantEntity;
+import vn.com.vui.truongnnt.demo.entity.StoreEntity;
+import vn.com.vui.truongnnt.demo.model.Merchant;
 
 public interface MerchantService {
-	Merchant add(Merchant merchant);
+	MerchantEntity add(Merchant merchant);
 
-	UpdateResult addStore(String merchantId, Store store);
+	UpdateResult addStore(String merchantId, StoreEntity store);
 	
-	Merchant get(String name);
+	MerchantEntity get(String name);
 }

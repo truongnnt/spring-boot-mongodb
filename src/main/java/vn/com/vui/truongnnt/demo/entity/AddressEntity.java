@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Document(collection = "address")
 @Data
-public class Address {
+public class AddressEntity {
 
 	@Id
 	private String id;

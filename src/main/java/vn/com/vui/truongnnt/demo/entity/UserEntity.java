@@ -15,7 +15,7 @@ import lombok.Data;
 @QueryEntity
 @Document
 @Data
-public class User {
+public class UserEntity {
 
 	@Id
 	private String userId;

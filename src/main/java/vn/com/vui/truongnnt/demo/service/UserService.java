@@ -5,25 +5,25 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
-import vn.com.vui.truongnnt.demo.entity.User;
+import vn.com.vui.truongnnt.demo.entity.UserEntity;
 import vn.com.vui.truongnnt.demo.model.PageSize;
 
 public interface UserService {
-	User save(User user);
+	UserEntity save(UserEntity user);
 
-	List<User> findAllUsers();
+	List<UserEntity> findAllUsers();
 
-	Optional<User> findUserById(String userId);
+	Optional<UserEntity> findUserById(String userId);
 
-	List<User> findUsersByName(String name);
+	List<UserEntity> findUsersByName(String name);
 
-	List<User> findUsersByEmail(String email);
+	List<UserEntity> findUsersByEmail(String email);
 
-	Page<User> findUsersPerPage(int page, PageSize pageSize, String sortBy, com.querydsl.core.types.Order order);
+	Page<UserEntity> findUsersPerPage(int page, PageSize pageSize, String sortBy, com.querydsl.core.types.Order order);
 
-	Page<User> findUsersByAgeBetween(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
+	Page<UserEntity> findUsersByAgeBetween(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
 			com.querydsl.core.types.Order order);
 	
-	Page<User> findUsersByAgeBetweenWithQ(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
+	Page<UserEntity> findUsersByAgeBetweenWithQ(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
 			com.querydsl.core.types.Order order);
 }

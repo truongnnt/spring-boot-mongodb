@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.mongodb.MongoWriteException;
 
-import vn.com.vui.truongnnt.demo.entity.User;
+import vn.com.vui.truongnnt.demo.entity.UserEntity;
 import vn.com.vui.truongnnt.demo.model.PageSize;
 import vn.com.vui.truongnnt.demo.service.UserService;
 
@@ -34,7 +34,7 @@ public class UserController {
 //	private RedisTemplate redisTemplate;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public User addNewUsers(@RequestBody User user) {
+	public UserEntity addNewUsers(@RequestBody UserEntity user) {
 		LOG.info("Saving user.");
 		try {
 			return userService.save(user);
@@ -51,21 +51,21 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public List<User> getAllUsers() {
+	public List<UserEntity> getAllUsers() {
 		LOG.info("Getting all users.");
 		return userService.findAllUsers();
 	}
 
 	@RequestMapping(value = "/id/{userId}", method = RequestMethod.GET)
-	public User getUser(@PathVariable String userId) {
+	public UserEntity getUser(@PathVariable String userId) {
 		LOG.info("Getting user with ID: {}.", userId);
-		User user = userService.findUserById(userId).orElseThrow(
+		UserEntity user = userService.findUserById(userId).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found User with ID [" + userId + "]"));
 		return user;
 	}
 
 	@RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
-	public List<User> getUserByName(@PathVariable String name, @RequestParam(defaultValue = "1") int page,
+	public List<UserEntity> getUserByName(@PathVariable String name, @RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") PageSize size, @RequestParam(defaultValue = "age") String sortBy,
 			@RequestParam(defaultValue = "ASC") com.querydsl.core.types.Order order) {
 		LOG.info("Getting user with NAME: {}.", name);
@@ -74,14 +74,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
-	public List<User> getByName(@PathVariable String email) {
+	public List<UserEntity> getByName(@PathVariable String email) {
 		LOG.info("Getting user with NAME: {}.", email);
 		// return userDAL.getUserByName(name);
 		return userService.findUsersByEmail(email);
 	}
 
 	@RequestMapping(value = "page", method = RequestMethod.GET)
-	public Page<User> getPageUsers(@RequestParam(defaultValue = "1") int page,
+	public Page<UserEntity> getPageUsers(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") PageSize size, @RequestParam(defaultValue = "age") String sortBy,
 			@RequestParam(defaultValue = "ASC") com.querydsl.core.types.Order order) {
 		LOG.info("Getting page users at page [{}], size {}", page, size);
@@ -90,7 +90,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "page/age", method = RequestMethod.GET)
-	public Page<User> getPageUsersByAge(@RequestParam int from, @RequestParam int to, @RequestParam int page,
+	public Page<UserEntity> getPageUsersByAge(@RequestParam int from, @RequestParam int to, @RequestParam int page,
 			@RequestParam(defaultValue = "10") PageSize size, @RequestParam(defaultValue = "age") String sortBy,
 			@RequestParam(defaultValue = "ASC") com.querydsl.core.types.Order order) {
 		LOG.info("Getting users with age from {} to {} ", from, to);
@@ -98,7 +98,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "page/ageWithQ", method = RequestMethod.GET)
-	public Page<User> getPageUsersByAgeWithQ(@RequestParam int from, @RequestParam int to, @RequestParam int page,
+	public Page<UserEntity> getPageUsersByAgeWithQ(@RequestParam int from, @RequestParam int to, @RequestParam int page,
 			@RequestParam(defaultValue = "10") PageSize size, @RequestParam(defaultValue = "age") String sortBy,
 			@RequestParam(defaultValue = "ASC") com.querydsl.core.types.Order order) {
 		LOG.info("Getting users with age from {} to {} ", from, to);

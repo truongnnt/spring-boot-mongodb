@@ -14,8 +14,9 @@ import com.mongodb.client.model.geojson.Point;
 import com.mongodb.client.model.geojson.Position;
 import com.mongodb.client.result.UpdateResult;
 
-import vn.com.vui.truongnnt.demo.entity.Merchant;
-import vn.com.vui.truongnnt.demo.entity.Store;
+import vn.com.vui.truongnnt.demo.entity.MerchantEntity;
+import vn.com.vui.truongnnt.demo.entity.StoreEntity;
+import vn.com.vui.truongnnt.demo.model.Merchant;
 import vn.com.vui.truongnnt.demo.service.MerchantService;
 
 @RestController(value = "merchants")
@@ -26,20 +27,18 @@ public class MerchantController {
 	private MerchantService merchantService;
 
 	@PostMapping(produces = "application/json")
-	public Merchant create(@RequestBody Merchant merchant) {
-		Point point = new Point(
-				new Position(Arrays.asList(Double.parseDouble("107687613"), Double.parseDouble("1067000027.18"))));
-		merchant.setHead(point);
+	public MerchantEntity create(@RequestBody Merchant merchant) {
+		
 		return merchantService.add(merchant);
 	}
 
 	@PostMapping(path = "/{merchantId}/stores", produces = "application/json")
-	public UpdateResult addStore(@PathVariable String merchantId, @RequestBody Store store) {
+	public UpdateResult addStore(@PathVariable String merchantId, @RequestBody StoreEntity store) {
 		return merchantService.addStore(merchantId, store);
 	}
 	
 	@GetMapping(path = "/{name}", produces = "application/json")
-	public Merchant get(@PathVariable String name) {
+	public MerchantEntity get(@PathVariable String name) {
 		return merchantService.get(name);
 	}
 }

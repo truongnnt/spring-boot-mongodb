@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Document(collection = "store")
 @Data
-public class Store {
+public class StoreEntity {
 	@Id
 	private String id;
 
@@ -25,7 +25,7 @@ public class Store {
 	private Point location;
 
 	@Indexed
-	private User manager;
+	private UserEntity manager;
 
-	private List<User> staffs;
+	private List<UserEntity> staffs;
 }

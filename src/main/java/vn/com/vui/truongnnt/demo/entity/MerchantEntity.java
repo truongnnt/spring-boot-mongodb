@@ -1,5 +1,6 @@
 package vn.com.vui.truongnnt.demo.entity;
 
+import java.io.InputStream;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -14,12 +15,14 @@ import com.mongodb.gridfs.GridFS;
 import com.querydsl.core.annotations.PropertyType;
 import com.querydsl.core.annotations.QueryType;
 
+import lombok.Builder;
 import lombok.Data;
 import vn.com.vui.truongnnt.demo.model.Category;
 
 @Document(collection = "merchant")
 @Data
-public class Merchant {
+@Builder
+public class MerchantEntity {
 
 	@Id
 	private String id;
@@ -31,14 +34,14 @@ public class Merchant {
 	private Point head;
 	
 	@DBRef
-	private Set<Store> stores;
+	private Set<StoreEntity> stores;
 	
 	@DBRef
 	@Indexed
-	private User president;
+	private UserEntity president;
 	
 	@QueryType(PropertyType.NONE)
-	private GridFS icon;
+	private InputStream icon;
 	
 	@Indexed
 	private Category category;

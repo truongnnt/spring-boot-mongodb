@@ -5,16 +5,16 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import vn.com.vui.truongnnt.demo.entity.Merchant;
-import vn.com.vui.truongnnt.demo.entity.User;
+import vn.com.vui.truongnnt.demo.entity.MerchantEntity;
+import vn.com.vui.truongnnt.demo.entity.UserEntity;
 import vn.com.vui.truongnnt.demo.model.Category;
 
 @Repository
-public interface MerchantRepository extends MongoRepositoryCustom<Merchant, String> {
+public interface MerchantRepository extends MongoRepositoryCustom<MerchantEntity, String> {
 
-	Optional<Merchant> findByName(String name);
+	Optional<MerchantEntity> findByName(String name);
 
-	List<Merchant> findByPresident(User president);
+	List<MerchantEntity> findByPresident(UserEntity president);
 	
-	List<Merchant> findByCategory(Category category);
+	List<MerchantEntity> findByCategory(Category category);
 }

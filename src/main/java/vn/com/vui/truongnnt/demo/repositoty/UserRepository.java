@@ -1,21 +1,20 @@
 package vn.com.vui.truongnnt.demo.repositoty;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import vn.com.vui.truongnnt.demo.entity.QUser;
-import vn.com.vui.truongnnt.demo.entity.User;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.PathBuilder;
+
+import vn.com.vui.truongnnt.demo.entity.UserEntity;
 import vn.com.vui.truongnnt.demo.model.PageSize;
 
 @Repository
-public interface UserRepository extends MongoRepositoryCustom<User, String> {
+public interface UserRepository extends MongoRepositoryCustom<UserEntity, String> {
 
 	// @Query("{ 'name' : ?0 }")
 	// List<User> findUsersByName(String name);
@@ -38,7 +37,7 @@ public interface UserRepository extends MongoRepositoryCustom<User, String> {
 	 * @param name field {name}
 	 * @return List of User collection
 	 */
-	List<User> findByName(String name);
+	List<UserEntity> findByName(String name);
 
 	/**
 	 * FindByX: finding all users with the given {email}
@@ -46,7 +45,7 @@ public interface UserRepository extends MongoRepositoryCustom<User, String> {
 	 * @param email field {email}
 	 * @return List of User collection
 	 */
-	List<User> findByEmail(String email);
+	List<UserEntity> findByEmail(String email);
 
 	/**
 	 * Between: this will return all users with ages between ageGT and ageLT
@@ -56,8 +55,8 @@ public interface UserRepository extends MongoRepositoryCustom<User, String> {
 	 * @param page
 	 * @return
 	 */
-	//@Query("{ 'age' : { $gte: ?0, $lte: ?1 } }")
-	Page<User> findByAgeBetween(int ageGT, int ageLT, Pageable page);
+	// @Query("{ 'age' : { $gte: ?0, $lte: ?1 } }")
+	Page<UserEntity> findByAgeBetween(int ageGT, int ageLT, Pageable page);
 
 //	List<User> findByNameLikeOrderByAgeAsc(String name);
 //	List<User> findByNameStartingWith(String regexp);
@@ -75,17 +74,16 @@ public interface UserRepository extends MongoRepositoryCustom<User, String> {
 	 * @param order    order (ASC/DESC)
 	 * @return page of User collection
 	 */
-	default Page<User> findUsersByAgeBetween(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
+	default Page<UserEntity> findUsersByAgeBetween(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
 			com.querydsl.core.types.Order order) {
 		return findByAgeBetween(ageGT, ageLT, getPageable(page, pageSize, sortBy, order));
 	}
-	
-	default Page<User> findByAgeBetweenWithQ(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
+
+	default Page<UserEntity> findByAgeBetweenWithQ(int ageGT, int ageLT, int page, PageSize pageSize, String sortBy,
 			com.querydsl.core.types.Order order) throws ParseException {
-		
-		
-		return findAll(	new Query().addCriteria( Criteria.where("age").gte(ageGT).lte(ageLT)).
-					, getPageable(page, pageSize, sortBy, order));
+		PathBuilder<UserEntity> user = new PathBuilder<UserEntity>(UserEntity.class, "user");
+		Predicate filter = user.getNumber("age", Integer.class).between(ageGT, ageLT);
+		return findAll(filter, getPageable(page, pageSize, sortBy, order));
 //		return findAll(QUser.user.age.between(ageGT, ageLT)
 //			.and(QUser.user.creationDate.after(new SimpleDateFormat("yyyy-MM-dd").parse("2023-02-08")))	
 //				, getPageable(page, pageSize, sortBy, order));
